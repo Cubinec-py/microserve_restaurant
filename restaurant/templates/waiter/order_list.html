@@ -1,0 +1,45 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block content %}
+    <table class="table">
+        <tr>
+            <th>Гость</th>
+            <th>Статус заказа</th>
+            <th>Официант</th>
+            <th>Стол</th>
+            <th></th>
+        </tr>
+        {% for ord in order_list.all %}
+            </tr>
+            <th>{{ ord.customer }}</th>
+            <th>{{ ord.status }}</th>
+            <th>
+                {% if ord.waiter %}
+                    {{ ord.waiter.waiter.first_name }} {{ ord.waiter.waiter.last_name }}
+                {% else %}
+                    <form id="form-waiter">
+                        <div id="table-info">
+                            <input type="hidden" name="order" value="{{ ord.id }}">
+                            <select class="form-select" name="table">
+                                {% for i in waiter_list %}
+                                    <option class="form" value="{{ i.id }}">
+                                        Официант: {{ i }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button id="form-button-waiter" class="btn btn-outline-dark">Подтвердить</button>
+                    </form>
+                {% endif %}
+            </th>
+            <th>{{ ord.table_item.table.number }}</th>
+            <th class="text-center">
+                <a class="btn btn-outline-dark " href="{% url 'order_detail' pk=ord.id %}">
+                    Открыть заказ
+                </a>
+            </th>
+            </tr>
+        {% endfor %}
+    </table>
+    <script type="text/javascript" src="{% static 'waiter_interface/waiter_create.js' %}"></script>
+{% endblock %}

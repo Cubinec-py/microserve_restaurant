@@ -1,0 +1,146 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block content %}
+    <script>
+      $(document).on("click", ".open-incident", function (e) {
+        e.preventDefault();
+        let $popup = $("#popup");
+        let popup_url = $(this).data("popup-url");
+        console.log(popup_url)
+        $(".modal-body", $popup).load(popup_url, function () {
+          $popup.modal("show");
+        });
+      });
+    </script>
+<link rel="stylesheet" type='text/css' href="{% static 'menu/menu.css' %}">
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <div class="row">
+        <form method="GET" action="">
+            <div class="" style="margin-bottom: 0px !important; margin-top: 50px !important;">
+                <div class="d-flex flex-row bd-highlight mb-3">
+                    <div class="card">
+                        <div class="p-2 bd-highlight text-center">
+                            <button href="{% url 'menu' %}"><img style="width: auto; height: 85px !important;" src="{% static 'images/the-menu.png' %}"></button>
+                            <br>Полное меню
+                        </div>
+                    </div>
+                    {% for filt in filter.form.fields.category.queryset.all %}
+                        <div class="card">
+                        <div class="p-2 bd-highlight text-center">
+                            <button type="submit" style="border: none; background: none" name="category" id="id_category" value="{{ filt.id }}" type="checkbox"><img style="width: auto; height: 85px !important;" src="{{ filt.image.url }}"></button>
+                            <br>{{ filt.name }}
+                        </div>
+                        </div>
+                    {% endfor %}
+                    <a class="btn btn-warning" href="{% url 'cart' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        {% for it in items %}
+                            {{ it.amount }}
+                        {% endfor %}
+                    </a>
+                </div>
+            </div>
+        </form>
+        <div class="container" style="margin-top: 20px !important;">
+        <div class="row">
+            <div class="card__wrap--outer">
+                {% if filter.form.data|length == 0 or filter.form.data.page %}
+                    {% for menu in dish %}
+                        <div class="card__wrap--inner">
+                            <div class="card" >
+                                {% if menu.image %}
+                                    <img src="{{ menu.image.url }}">
+                                {% endif %}
+                                <div class="card__item">
+                                    <h2>{{ menu.name }}</h2>
+                                </div>
+                                <div class="card__sub">
+                                    <small>Вес {{ menu.weight }} гр.</small>
+                                </div>
+                                <div class="card__item flexible">
+                                    <small>{{ menu.description }}</small>
+                                </div>
+                                <div class="card__footer">
+                                    <button data-product="{{menu.id}}" data-action="add" class="btn btn-primary add-btn update-cart">Добавить</button>
+                                    <small style="float: right">${{ menu.price }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for menu in filter.qs %}
+                        <div class="card__wrap--inner">
+                            <div class="card" >
+                                {% if menu.image %}
+                                    <img src="{{ menu.image.url }}">
+                                {% endif %}
+                                <div class="card__item">
+                                    <h2>{{ menu.name }}</h2>
+                                </div>
+                                <div class="card__sub">
+                                    <small>Вес {{ menu.weight }} гр.</small>
+                                </div>
+                                <div class="card__item flexible">
+                                    <small>{{ menu.description }}</small>
+                                </div>
+                                <div class="card__footer">
+                                    <button data-product="{{menu.id}}" data-first_name="k" data-second_name="k" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Добавить</button>
+                                    <small style="float: right">${{ menu.price }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div></div>
+        </div>
+    </div>
+{#    	<div class="row">#}
+{#		<div class="col-lg-12">#}
+{#			<div class="box-element">#}
+{#				<br>#}
+{#				<br>#}
+{#				<table class="table">#}
+{#					<tr>#}
+{#						<th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>#}
+{#						<th><h5>Total:<strong> ${{order.get_cart_total|floatformat:2}}</strong></h5></th>#}
+{#						<th>#}
+{#							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>#}
+{#						</th>#}
+{#					</tr>#}
+{#				</table>#}
+{##}
+{#			</div>#}
+{##}
+{#			<br>#}
+{#			<div class="box-element">#}
+{#				<div class="row">#}
+{#					<div style="flex:2"></div>#}
+{#					<div style="flex:2"><strong>Item</strong></div>#}
+{#					<div style="flex:1"><strong>Price</strong></div>#}
+{#					<div style="flex:1"><strong>Quantity</strong></div>#}
+{#					<div style="flex:1"><strong>Total</strong></div>#}
+{#				</div>#}
+{#				{% for item in items %}#}
+{#				<div class="row">#}
+{#					<div style="flex:2"><img class="row-image" src="{{item.dish.imageURL.url}}"></div>#}
+{#					<div style="flex:2"><p>{{item.dish.name}}</p></div>#}
+{#					<div style="flex:1"><p>${{item.dish.price|floatformat:2}}</p></div>#}
+{#					<div style="flex:1">#}
+{#						<p class="quantity">{{item.quantity}}</p>#}
+{#						<div class="quantity">#}
+{#                            <button data-action="add" class="btn btn-primary add-btn update-cart" id="{{ item.id }}"><img style="width: auto; height: 85px !important;" src="{% static  'images/arrow-up.png' %}"></button>#}
+{#                            <button class="btn-primary" style="border: none; background: none" name="category" id="{{ filt.id }}"><img style="width: auto; height: 85px !important;" src="{% static  'images/arrow-up.png' %}"></button>#}
+{#							<img data-product="{{item.dish.id}}" style="width: 28px !important; height: 28px !important;" data-action="add" class="chg-quantity btn-primary update-cart" src="{% static  'images/arrow-up.png' %}">#}
+{##}
+{#							<img id="{{item.dish.id}}" style="width: 28px !important; height: 28px !important;" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">#}
+{#						</div>#}
+{#					</div>#}
+{#					<div style="flex:1"><p>${{item.get_total|floatformat:2}}</p></div>#}
+{#				</div>#}
+{#				{% endfor %}#}
+{#			</div>#}
+{#		</div>#}
+{#	</div>#}
+{% endblock %}

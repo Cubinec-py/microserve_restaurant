@@ -1,0 +1,155 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" type='text/css' href="{% static 'menu/menu.css' %}">
+    <div class="row">
+        <div class="col-lg-4">
+            <a class="btn btn-outline-dark " href="{% url 'waiter_interface' %}">
+                Назад
+            </a>
+            №{{ order.order_number }} [Стол {{ table.number }}, {{ table.hall }}] Официант
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-7">
+            <form method="GET">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="p-2 bd-highlight text-center">
+                                <button href="{% url 'menu' %}">
+                                    <img style="width: auto; height: 85px !important;"
+                                         src="{% static 'images/the-menu.png' %}">
+                                </button>
+                                <br>Полное меню
+                            </div>
+                        </div>
+                    </div>
+                    {% for filt in filter.form.fields.category.queryset.all %}
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="p-2 bd-highlight text-center">
+                                    <button type="submit" style="border: none; background: none" name="category"
+                                            id="id_category"
+                                            value="{{ filt.id }}" type="checkbox"><img
+                                            style="width: auto; height: 85px !important;"
+                                            src="{{ filt.image.url }}"></button>
+                                    <br>{{ filt.name }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </form>
+            <div class="row">
+                <div class="card__wrap--outer">
+                    {% if filter.form.data|length == 0 or filter.form.data.page %}
+                        {% for menu in dish %}
+                            <div class="card__wrap--inner">
+                                <div class="card">
+                                    {% if menu.image %}
+                                        <img src="{{ menu.image.url }}">
+                                    {% endif %}
+                                    <div class="card__item">
+                                        <h2>{{ menu.name }}</h2>
+                                    </div>
+                                    <div class="card__footer">
+                                        <button id="{{ menu.id }}" value="{{ order.id }}" name="{{ table.id }}"
+                                                about="{{ item.id }}"
+                                                class="btn add-btn update-order-item">Добавить
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for menu in filter.qs %}
+                            <div class="card__wrap--inner">
+                                <div class="card">
+                                    {% if menu.image %}
+                                        <img src="{{ menu.image.url }}">
+                                    {% endif %}
+                                    <div class="card__item">
+                                        <h2>{{ menu.name }}</h2>
+                                    </div>
+                                    <div class="card__footer">
+                                        <button id="{{ menu.id }}" value="{{ order.id }}" name="{{ table.id }}"
+                                                about="{{ item.id }}" class="btn add-btn update-order-item">
+                                            Добавить
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        <div class="row align-items-end">
+            <div class="col">
+            <h5>Клиент: {{ order.customer.first_name }} {{ order.customer.last_name }}</h5>
+            </div>
+        </div>
+        </div>
+        <div class="col-lg-5">
+            <table class="table">
+                <tr>
+                    <th>Блюдо</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Общая</th>
+                    <th></th>
+                </tr>
+                {% for item in order_item.all %}
+                    </tr>
+                    <th>{{ item.dish }}</th>
+                    <th>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <h3>
+                                {{ item.quantity }}
+                                <img alt="{{ item.id }}"
+                                     style="width: 28px !important; height: 28px !important;" id="{{ item.quantity }}"
+                                     class="chg-quantity btn-primary"
+                                     src="{% static  'images/arrow-up.png' %}">
+                                <img alt="{{ item.id }}" id="{{ item.quantity }}"
+                                     style="width: 28px !important; height: 28px !important;" data-action="remove"
+                                     class="chg-quantity btn-remove" src="{% static  'images/arrow-down.png' %}">
+                            </h3>
+                        </form>
+                    </th>
+                    <th>{{ item.dish.price }}</th>
+                    <th>{{ item.get_total }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div class="row justify-content-end">
+                <div class="col">
+                    <form id="form">
+                    <div class="col-7">
+                        {% if total != 0 %}
+                            <h5>Общее ${{ total }}
+                            <div id="table-info">
+                                <input type="hidden" name="order" value="{{ order.id }}">
+                                <select class="form-select" name="table">
+                                    <option>Статус заказа: {{ order.status }}</option>
+                                    {% for i in status %}
+                                        {% if i != order.status %}
+                                            <div></div>
+                                            <option class="form" value="{{ i }}">
+                                                Изменить статус на: {{ i }}
+                                            </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            </h5>
+                        {% endif %}
+                        <button id="form-button-status" class="btn btn-outline-dark">Подтвердить</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'waiter_interface/quantity_edit.js' %}"></script>
+{% endblock %}

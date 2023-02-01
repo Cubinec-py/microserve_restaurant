@@ -1,0 +1,17 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" type='text/css' href="{% static 'index/index.css' %}">
+    <section class="vh-100 gradient-custom">
+        <div class="nav">
+            <a class="btn btn-outline-warning" href="{% url 'custom_login' %}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Персонал
+            </a>
+            <a class="btn btn-outline-warning" href="{% url 'menu' %}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Меню
+            </a>
+        </div>
+    </section>
+{% endblock %}
