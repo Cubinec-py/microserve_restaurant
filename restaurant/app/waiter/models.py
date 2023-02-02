@@ -13,8 +13,3 @@ class Waiter(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
-
-
-class WaiterItem(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    waiter = models.ForeignKey(Waiter, on_delete=models.SET_NULL, null=True, blank=True)

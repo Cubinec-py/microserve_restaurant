@@ -15,7 +15,7 @@
             <th>{{ ord.status }}</th>
             <th>
                 {% if ord.waiter %}
-                    {{ ord.waiter.waiter.first_name }} {{ ord.waiter.waiter.last_name }}
+                    {{ ord.waiter.first_name }} {{ ord.waiter.last_name }}
                 {% else %}
                     <form id="form-waiter">
                         <div id="table-info">
@@ -32,7 +32,7 @@
                     </form>
                 {% endif %}
             </th>
-            <th>{{ ord.table_item.table.number }}</th>
+            <th>{{ ord.table.number }}</th>
             <th class="text-center">
                 <a class="btn btn-outline-dark " href="{% url 'order_detail' pk=ord.id %}">
                     Открыть заказ

@@ -7,7 +7,7 @@
             <a class="btn btn-outline-dark " href="{% url 'waiter_interface' %}">
                 Назад
             </a>
-            №{{ order.order_number }} [Стол {{ table.number }}, {{ table.hall }}] Официант
+            №{{ order.order_number }} [Стол {{ order.table.number }}, {{ order.table.hall }}] Официант {{ order.waiter.first_name }} {{ order.waiter.last_name }}
         </div>
     </div>
     <div class="row">
@@ -54,9 +54,9 @@
                                         <h2>{{ menu.name }}</h2>
                                     </div>
                                     <div class="card__footer">
-                                        <button id="{{ menu.id }}" value="{{ order.id }}" name="{{ table.id }}"
+                                        <button id="{{ menu.id }}" value="{{ order.id }}"
                                                 about="{{ item.id }}"
-                                                class="btn add-btn update-order-item">Добавить
+                                                class="btn btn-info update-order-item">Добавить
                                         </button>
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="card__footer">
                                         <button id="{{ menu.id }}" value="{{ order.id }}" name="{{ table.id }}"
-                                                about="{{ item.id }}" class="btn add-btn update-order-item">
+                                                about="{{ item.id }}" class="btn btn-info update-order-item">
                                             Добавить
                                         </button>
                                     </div>

@@ -1,9 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
-from app.order.models import OrderItem, Table, Order, TableItem
+from app.order.models import OrderItem, Table, Order
 from app.menu.models import Dish
-from app.waiter.models import WaiterItem, Waiter
+from app.waiter.models import Waiter
 from app.menu.filter import MenuFilter
 
 
@@ -18,8 +18,7 @@ class OrderListView(ListView):
             waiter = self.request.POST.get('waiter_id')
             order = self.request.POST.get('order_id')
             if waiter:
-                waiter_item = WaiterItem.objects.create(waiter_id=waiter)
-                Order.objects.filter(id=order).update(waiter_id=waiter_item.id)
+                Order.objects.filter(id=order).update(waiter_id=waiter)
             return JsonResponse('Ok', safe=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -40,19 +39,15 @@ class InterfaceView(DetailView, ListView):
             item_id = self.request.POST.get('item_id')
             dish_id = self.request.POST.get('dish_id')
             order_id = self.request.POST.get('order_id')
-            table_id = self.request.POST.get('table_id')
             status_order_id = self.request.POST.get('status_order_id')
             order_status = self.request.POST.get('order_status')
             if status_order_id:
                 Order.objects.filter(id=status_order_id).update(status=order_status)
-            if table_id and not OrderItem.objects.filter(order_id=order_id, dish_id=dish_id):
-                print('table_id', table_id, 'order_id', order_id)
-                table_item = TableItem.objects.create(table_id=table_id)
-                OrderItem.objects.create(dish_id=dish_id, order_id=order_id, quantity=1, table_item_id=table_item.id)
+            if order_id and not OrderItem.objects.filter(order_id=order_id, dish_id=dish_id):
+                OrderItem.objects.create(dish_id=dish_id, order_id=order_id, quantity=1)
             if quantity and int(quantity) > 0:
                 OrderItem.objects.filter(id=item_id).update(quantity=quantity)
             elif quantity and int(quantity) == 0:
-                print('quantity', quantity, 'item_id', item_id)
                 OrderItem.objects.filter(id=item_id).delete()
             return JsonResponse({'quantity': quantity})
 
@@ -62,7 +57,7 @@ class InterfaceView(DetailView, ListView):
         context['dish'] = Dish.objects.all()
         context['filter'] = MenuFilter(self.request.GET, queryset=Dish.objects.all())
         context['order_item'] = OrderItem.objects.all().filter(order_id=context['order'].id)
-        a = context['order_item'].select_related('table_item').select_related('order').select_related('dish')
+        a = context['order_item'].select_related('order').select_related('dish')
         context['order_item'] = a
         context['table'] = ''
         context['total'] = 0
@@ -70,7 +65,6 @@ class InterfaceView(DetailView, ListView):
         for i in context['order'].get_all_status():
             context['status'].append(i[0])
         for i in context['order_item']:
-            context['table'] = get_object_or_404(Table, id=i.table_item.table.id)
             context['total'] += i.get_total()
             break
         return context

@@ -54,8 +54,7 @@ $(document).ready(function () {
         // item_id = e.target.about
         order_id = e.target.value
         dish_id = e.target.id
-        table_id = e.target.name
-        console.log('order_id', order_id, 'dish_id', dish_id, 'table_id', table_id)
+        console.log('order_id', order_id, 'dish_id', dish_id)
         $.ajaxSetup({
             headers: {
                 'X-CSRFToken': csrf
@@ -64,7 +63,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/waiter/order_detail/' + order_id,
             type: "POST",
-            data: {'order_id': order_id, 'dish_id': dish_id, 'table_id': table_id},
+            data: {'order_id': order_id, 'dish_id': dish_id},
             dataType: "json",
         });
         location.reload()
