@@ -16,6 +16,8 @@ class ShowMenuListView(ListView):
         data = cart_data(self.request)
 
         items = data['items']
+        order = data['order']
         context['items'] = items
+        context['order'] = order
         context['filter'] = MenuFilter(self.request.GET, queryset=self.get_queryset())
         return context

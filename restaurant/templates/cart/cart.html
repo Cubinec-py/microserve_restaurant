@@ -41,7 +41,8 @@
                                 </h5>
                             </th>
                             <th>
-                                <input id="form-button" class="btn btn-success btn-block" type="submit" value="Подтвердить">
+                                <input id="form-button" class="btn btn-success btn-block" type="submit"
+                                       value="Подтвердить">
                             </th>
                         </tr>
                     </table>
@@ -65,7 +66,7 @@
                         <div style="flex:2"><p>{{ item.dish.name }}</p></div>
                         <div style="flex:1"><p>${{ item.dish.price|floatformat:2 }}</p></div>
                         <div style="flex:1">
-                            <p class="quantity">{{ item.quantity }}</p>
+                            <p class="quantity">{{ item.amount }}</p>
                             <div class="quantity">
                                 <img data-product="{{ item.dish.id }}"
                                      style="width: 28px !important; height: 28px !important;" data-action="add"

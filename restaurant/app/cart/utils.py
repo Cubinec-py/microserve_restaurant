@@ -70,7 +70,7 @@ def guest_order(request, data):
 
     order = Order.objects.create(
         customer=customer,
-        status='Готовиться',
+        status='Готовится',
         table_id=table,
     )
     for item in items:

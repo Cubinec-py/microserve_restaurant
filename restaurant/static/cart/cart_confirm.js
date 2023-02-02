@@ -38,7 +38,7 @@ function submitFormData() {
         console.log('Success:', data);
         alert('Заказ успешно подтвержден');
 
-        cart = {}
+        cart = {'first_name': form.first_name.value, 'last_name': form.last_name.value}
         document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
 
         window.location.href = "/menu/"
