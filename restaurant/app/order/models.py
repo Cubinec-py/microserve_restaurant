@@ -51,6 +51,7 @@ class Order(models.Model):
     waiter = models.ForeignKey(Waiter, on_delete=models.SET_NULL, null=True, blank=True)
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True, blank=True)
     tips = models.ForeignKey(Tips, on_delete=models.SET_NULL, null=True, blank=True)
+    total_payment = models.IntegerField(default=0)
 
     def get_all_status(self):
         return self.category_status

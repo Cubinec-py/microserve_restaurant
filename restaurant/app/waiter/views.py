@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
-from app.order.models import OrderItem, Table, Order
+from app.order.models import OrderItem, Order
 from app.menu.models import Dish
 from app.waiter.models import Waiter
 from app.menu.filter import MenuFilter

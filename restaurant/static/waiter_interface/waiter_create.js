@@ -20,5 +20,5 @@ function submitFormData() {
         data: {'waiter_id': waiter_id, 'order_id': order_id},
         dataType: "json",
     });
-    // location.reload()
+    location.reload()
 }

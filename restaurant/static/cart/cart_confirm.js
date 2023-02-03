@@ -15,9 +15,8 @@ function submitFormData() {
     let userFormData = {
         'first_name': form.first_name.value,
         'last_name': form.last_name.value,
-        'total': form.total.value,
     }
-
+    console.log('first_name', form.first_name.value)
     let table = {
         'table_id': form.table.value,
     }
