@@ -1,13 +1,15 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.db.models import Sum, Count, Avg
 from django.views.generic import ListView, DetailView
-from app.order.models import OrderItem, Order
+from app.order.models import OrderItem, Order, Rating
 from app.menu.models import Dish
-from app.waiter.models import Waiter
+from app.waiter.models import Waiter, Tips
 from app.menu.filter import MenuFilter
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class OrderListView(ListView):
+class OrderListView(LoginRequiredMixin, ListView):
     model = Order
     queryset = Order.objects.select_related('waiter').select_related('customer')
     context_object_name = 'order_list'
@@ -27,7 +29,7 @@ class OrderListView(ListView):
         return context
 
 
-class InterfaceView(DetailView, ListView):
+class InterfaceView(LoginRequiredMixin, DetailView, ListView):
     model = Order
     queryset = Order.objects.select_related('customer')
     context_object_name = 'order'
@@ -67,4 +69,34 @@ class InterfaceView(DetailView, ListView):
         for i in context['order_item']:
             context['total'] += i.get_total()
             break
+        return context
+
+
+class TipsDetailView(LoginRequiredMixin, ListView):
+    model = Tips
+    context_object_name = 'tips'
+    template_name = 'waiter/tips/waiter_tips.html'
+
+    def get_queryset(self):
+        return Tips.objects.filter(waiter__user=self.request.user)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['orders'] = Order.objects.filter(waiter__user=self.request.user).all()
+        context['total_amount'] = context['tips'].aggregate(total_amount=Sum('amount'))['total_amount']
+        context['count_order'] = context['orders'].aggregate(order_count=Count('id'))['order_count']
+        return context
+
+
+class RestaurantStatsDetailView(LoginRequiredMixin, ListView):
+    model = Order
+    queryset = Order.objects.filter(status='Оплачено').all().select_related('waiter').select_related('rating')
+    context_object_name = 'orders'
+    template_name = 'waiter/admin_page/stats.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['total_amount'] = context['orders'].aggregate(total_amount=Sum('total_payment'))['total_amount']
+        context['count_order'] = context['orders'].aggregate(order_count=Count('id'))['order_count']
+        context['average_rating'] = int(Rating.objects.all().aggregate(average_rating=Avg('rating'))['average_rating'])
         return context

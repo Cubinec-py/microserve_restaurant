@@ -18,6 +18,8 @@
 
 {% endblock content %}
 {% include 'includes/modal.html' %}
-<script type="text/javascript" src="{% static 'cart/cart.js' %}"></script>
+{% include 'includes/modal_tips.html' %}
+{% include 'includes/modal_restaurant_stats.html' %}
+<script type="text/javascript" src="{% static 'cart/js/cart.js' %}"></script>
 </body>
 </html>

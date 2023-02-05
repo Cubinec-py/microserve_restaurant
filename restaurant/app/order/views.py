@@ -1,7 +1,8 @@
-from .models import Order, OrderItem, Tips
+from .models import Order, OrderItem, Rating
 from django.views.generic import DetailView
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from app.waiter.models import Tips
 
 
 class OrderDetailView(DetailView):
@@ -14,14 +15,20 @@ class OrderDetailView(DetailView):
             order_id = self.request.POST.get('id_order')
             total = self.request.POST.get('total')
             tips = self.request.POST.get('tips')
+            rate_amount = self.request.POST.get('rate_amount')
             if order_id:
                 order = get_object_or_404(Order, id=order_id)
-                tips = Tips.objects.create(amount=float(tips), customer_id=order.customer.id)
-                order.tips = tips
+                if rate_amount:
+                    new_rating = Rating.objects.create(rating=int(rate_amount))
+                    order.rating = new_rating
+                if tips:
+                    tips = Tips.objects.create(amount=float(tips))
+                    order.tips = tips
                 order.total_payment = float(total)
                 order.status = 'Оплачено'
                 order.save()
                 return JsonResponse('Ok', safe=False)
+        return JsonResponse('Not ok', safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

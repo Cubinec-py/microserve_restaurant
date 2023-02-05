@@ -1,13 +1,13 @@
 {% extends 'base_generic.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" type='text/css' href="{% static 'menu/menu.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'menu/css/menu.css' %}">
     <div class="row">
         <div class="col-lg-4">
             <a class="btn btn-outline-dark " href="{% url 'waiter_interface' %}">
                 Назад
             </a>
-            №{{ order.order_number }} [Стол {{ order.table.number }}, {{ order.table.hall }}] Официант {{ order.waiter.first_name }} {{ order.waiter.last_name }}
+            №{{ order.order_number }} [Стол {{ order.table.number }}, {{ order.table.hall }}] Официант {{ order.waiter.user.first_name }} {{ order.waiter.user.last_name }}
         </div>
     </div>
     <div class="row">
@@ -151,5 +151,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{% static 'waiter_interface/quantity_edit.js' %}"></script>
+    <script type="text/javascript" src="{% static 'waiter_interface/js/quantity_edit.js' %}"></script>
 {% endblock %}

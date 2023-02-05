@@ -1,11 +1,15 @@
 {% extends 'base_generic.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" type='text/css' href="{% static 'cart/cart.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'cart/css/cart.css' %}">
     <div class="row">
         <div class="col-lg-12">
             <div class="box-element">
                 <br>
+                <a class="btn btn-warning" href="{% url 'menu' %}">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Назад
+                </a>
                 <br>
                 <form id="form">
                     <table class="table">
@@ -83,5 +87,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{% static 'cart/cart_confirm.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cart/js/cart_confirm.js' %}"></script>
 {% endblock content %}

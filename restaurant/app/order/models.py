@@ -3,6 +3,11 @@ import uuid
 from django.db import models
 from app.menu.models import Dish
 from app.waiter.models import Waiter
+from django.db.models import Sum
+
+
+class Rating(models.Model):
+    rating = models.IntegerField(default=0)
 
 
 class Customer(models.Model):
@@ -11,14 +16,6 @@ class Customer(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
-
-
-class Tips(models.Model):
-    amount = models.FloatField(default=0, null=True)
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return self.customer.first_name
 
 
 class Table(models.Model):
@@ -50,8 +47,8 @@ class Order(models.Model):
     status = models.CharField(max_length=100, choices=category_status, default='Зал 1')
     waiter = models.ForeignKey(Waiter, on_delete=models.SET_NULL, null=True, blank=True)
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True, blank=True)
-    tips = models.ForeignKey(Tips, on_delete=models.SET_NULL, null=True, blank=True)
     total_payment = models.IntegerField(default=0)
+    rating = models.ForeignKey(Rating, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_all_status(self):
         return self.category_status

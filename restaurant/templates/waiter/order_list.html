@@ -2,7 +2,17 @@
 {% load static %}
 {% block content %}
     <div class="container">
-    <h3>asfsga</h3>
+        <h3>
+            {% if user.is_authenticated and not user.is_staff %}
+                <a class="btn btn-outline-dark open-tips" data-popup-url="{% url 'waiter_tips' %}">
+                    Посмотреть чаевые
+                </a>
+            {% elif user.is_staff %}
+                <a class="btn btn-outline-dark open-restaurant-stats" data-popup-url="{% url 'restaurant_stats' %}">
+                    Посмотреть статистику
+                </a>
+            {% endif %}
+        </h3>
     </div>
     <div class="container">
         <table class="table">
@@ -20,15 +30,15 @@
                     <th>{{ ord.status }}</th>
                     <th>
                         {% if ord.waiter %}
-                            {{ ord.waiter.first_name }} {{ ord.waiter.last_name }}
+                            {{ ord.waiter.user.first_name }} {{ ord.waiter.user.last_name }}
                         {% else %}
                             <form id="form-waiter">
                                 <div id="table-info">
                                     <input type="hidden" name="order" value="{{ ord.id }}">
                                     <select class="form-select" name="table">
-                                        {% for i in waiter_list %}
+                                        {% for i in waiter_list.all %}
                                             <option class="form" value="{{ i.id }}">
-                                                Официант: {{ i }}
+                                                Официант: {{ i.user.first_name }} {{ i.user.last_name }}
                                             </option>
                                         {% endfor %}
                                     </select>
@@ -48,5 +58,7 @@
             {% endfor %}
         </table>
     </div>
-    <script type="text/javascript" src="{% static 'waiter_interface/waiter_create.js' %}"></script>
+    <script type="text/javascript" src="{% static 'waiter_interface/js/waiter_tips.js' %}"></script>
+    <script type="text/javascript" src="{% static 'waiter_interface/js/waiter_create.js' %}"></script>
+    <script type="text/javascript" src="{% static 'waiter_interface/js/restaurant_stats.js' %}"></script>
 {% endblock %}
