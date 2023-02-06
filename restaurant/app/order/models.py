@@ -3,7 +3,6 @@ import uuid
 from django.db import models
 from app.menu.models import Dish
 from app.waiter.models import Waiter, Tips
-from django.db.models import Sum
 
 
 class Rating(models.Model):

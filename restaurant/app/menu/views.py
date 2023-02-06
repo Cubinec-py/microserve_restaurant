@@ -21,10 +21,13 @@ class ShowMenuListView(ListView):
         order = data['order']
         customer = cookie_items(self.request)
         try:
-            customer_id = get_object_or_404(Customer, first_name=customer['first_name'], last_name=customer['last_name'])
+            first_name = customer['first_name']
+            last_name = customer['last_name']
+            customer_id = get_object_or_404(Customer, first_name=first_name, last_name=last_name)
             context['order_id'] = get_object_or_404(Order, customer=customer_id)
             context['customer'] = customer_id
-        except:
+        except Exception as e:
+            print('Error:', e)
             pass
         context['items'] = items
         context['order'] = order

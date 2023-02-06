@@ -1,16 +1,15 @@
 import json
-from app.order.models import Order, OrderItem, Customer, Table
+from app.order.models import Order, OrderItem, Customer
 from app.menu.models import Dish
-from django.shortcuts import get_object_or_404
 
 
 def cookie_cart(request):
     # Create empty cart for now for non-logged in user
     try:
         cart = json.loads(request.COOKIES['cart'])
-    except:
+    except Exception as e:
         cart = {}
-        print('CART:', cart)
+        print('Error:', e)
 
     items = []
     order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
@@ -19,7 +18,7 @@ def cookie_cart(request):
     for i in cart:
         # We use try block to prevent items in cart that may have been removed from causing error
         try:
-            if (cart[i]['quantity'] > 0):  # items with negative quantity = lot of freebies
+            if cart[i]['quantity'] > 0:  # items with negative quantity = lot of freebies
                 cart_items += cart[i]['quantity']
 
                 dish = Dish.objects.get(id=i)
@@ -41,7 +40,8 @@ def cookie_cart(request):
                     }, 'amount': cart[i]['quantity'], 'get_total': total,
                 }
                 items.append(item)
-        except:
+        except Exception as e:
+            print('Error', e)
             pass
     return {'cart_items': cart_items, 'order': order, 'items': items}
 

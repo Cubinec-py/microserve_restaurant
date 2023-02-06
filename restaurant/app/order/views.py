@@ -1,4 +1,4 @@
-from .models import Order, OrderItem, Rating, Waiter
+from .models import Order, OrderItem, Rating
 from django.views.generic import DetailView
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404

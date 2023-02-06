@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
 from django.db.models import Sum, Count, Avg
 from django.views.generic import ListView, DetailView
 from app.order.models import OrderItem, Order, Rating
@@ -22,6 +21,7 @@ class OrderListView(LoginRequiredMixin, ListView):
             if waiter:
                 Order.objects.filter(id=order).update(waiter_id=waiter)
             return JsonResponse('Ok', safe=False)
+        return JsonResponse('Not ok', safe=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,7 +51,8 @@ class InterfaceView(LoginRequiredMixin, DetailView, ListView):
                 OrderItem.objects.filter(id=item_id).update(quantity=quantity)
             elif quantity and int(quantity) == 0:
                 OrderItem.objects.filter(id=item_id).delete()
-            return JsonResponse({'quantity': quantity})
+            return JsonResponse('Ok', safe=False)
+        return JsonResponse('Not ok', safe=False)
 
     def get_context_data(self, **kwargs):
         self.object_list = self.get_queryset()
