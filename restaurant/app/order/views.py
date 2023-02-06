@@ -1,4 +1,4 @@
-from .models import Order, OrderItem, Rating
+from .models import Order, OrderItem, Rating, Waiter
 from django.views.generic import DetailView
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -22,7 +22,7 @@ class OrderDetailView(DetailView):
                     new_rating = Rating.objects.create(rating=int(rate_amount))
                     order.rating = new_rating
                 if tips:
-                    tips = Tips.objects.create(amount=float(tips))
+                    tips = Tips.objects.create(amount=float(tips), waiter_id=order.waiter_id)
                     order.tips = tips
                 order.total_payment = float(total)
                 order.status = 'Оплачено'

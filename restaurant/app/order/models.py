@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 from app.menu.models import Dish
-from app.waiter.models import Waiter
+from app.waiter.models import Waiter, Tips
 from django.db.models import Sum
 
 
@@ -49,6 +49,7 @@ class Order(models.Model):
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True, blank=True)
     total_payment = models.IntegerField(default=0)
     rating = models.ForeignKey(Rating, on_delete=models.SET_NULL, null=True, blank=True)
+    tips = models.ForeignKey(Tips, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_all_status(self):
         return self.category_status

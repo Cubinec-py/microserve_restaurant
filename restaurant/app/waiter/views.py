@@ -73,18 +73,19 @@ class InterfaceView(LoginRequiredMixin, DetailView, ListView):
 
 
 class TipsDetailView(LoginRequiredMixin, ListView):
-    model = Tips
-    context_object_name = 'tips'
+    model = Order
+    context_object_name = 'orders'
     template_name = 'waiter/tips/waiter_tips.html'
 
     def get_queryset(self):
-        return Tips.objects.filter(waiter__user=self.request.user)
+        return Order.objects.filter(waiter__user=self.request.user)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['orders'] = Order.objects.filter(waiter__user=self.request.user).all()
-        context['total_amount'] = context['tips'].aggregate(total_amount=Sum('amount'))['total_amount']
-        context['count_order'] = context['orders'].aggregate(order_count=Count('id'))['order_count']
+        orders = context['orders']
+        context['total_amount'] = \
+            Tips.objects.filter(waiter__user=self.request.user).aggregate(total_amount=Sum('amount'))['total_amount']
+        context['count_order'] = orders.filter(tips__isnull=False).aggregate(order_count=Count('id'))['order_count']
         return context
 
 
