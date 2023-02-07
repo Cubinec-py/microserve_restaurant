@@ -1,0 +1,93 @@
+{#{% extends 'base_generic.html' %}#}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css"
+          integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
+    <link rel="stylesheet" type='text/css' href="{% static 'waiter_interface/css/tips_check.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'waiter_interface/css/restautant_rating.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <section class="h-100 h-custom" style="">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-8">
+                                    <div class="p-5">
+                                        <div class="d-flex justify-content-between align-items-center mb-5">
+                                            <h1 class="fw-bold mb-0 text-black">Список оплаченных заказов</h1>
+                                            <h6 class="mb-0 text-muted">{{ count_order }} orders</h6>
+                                        </div>
+                                        {% for order in orders %}
+                                            <hr class="my-4">
+
+                                            <div class="row mb-5 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-4">
+                                                    <h6 class="text-muted">Дата заказа</h6>
+                                                    <h6 class="text-black mb-0">{{ order.date_ordered }}</h6>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <h6 class="text-muted">Номер заказа</h6>
+                                                    <h6 class="text-black mb-0">{{ order.order_number }}</h6>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <h6 class="text-muted">Официант</h6>
+                                                    <h6 class="text-black mb-0">{{ order.waiter.user.first_name }} {{ order.waiter.user.last_name }}</h6>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <h6 class="text-muted">Чек заказа</h6>
+                                                    <h6 class="mb-0">$ {{ order.total_payment }}</h6>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    {% if order.rating.rating > 0 %}
+                                                        <div class="d-flex list-inline rating-list">
+                                                            <span class="bi bi-star-fill {% if order.rating.rating >= 1 %} checked {% endif %}"></span>
+                                                            <span class="bi bi-star-fill {% if order.rating.rating >= 2 %} checked {% endif %}"></span>
+                                                            <span class="bi bi-star-fill {% if order.rating.rating >= 3 %} checked {% endif %}"></span>
+                                                            <span class="bi bi-star-fill {% if order.rating.rating >= 4 %} checked {% endif %}"></span>
+                                                            <span class="bi bi-star-fill {% if order.rating.rating >= 5 %} checked {% endif %}"></span>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="pt-5">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 bg-grey">
+                                    <div class="p-5">
+                                        <h3 class="fw-bold mb-5 mt-2 pt-1">Общее</h3>
+
+                                        <div class="d-flex justify-content-between mb-5">
+                                            <h5 class="text-uppercase">Вся выручка</h5>
+                                            {% if total_amount %}
+                                                <h5>$ {{ total_amount }}</h5>
+                                            {% endif %}
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-5">
+                                            <h5 class="text-uppercase">Средний рейтинг заказов</h5>
+                                            <div class="d-flex list-inline rating-list">
+                                                <span class="bi bi-star-fill {% if average_rating >= 1 %} checked {% endif %}"></span>
+                                                <span class="bi bi-star-fill {% if average_rating >= 2 %} checked {% endif %}"></span>
+                                                <span class="bi bi-star-fill {% if average_rating >= 3 %} checked {% endif %}"></span>
+                                                <span class="bi bi-star-fill {% if average_rating >= 4 %} checked {% endif %}"></span>
+                                                <span class="bi bi-star-fill {% if average_rating >= 5 %} checked {% endif %}"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

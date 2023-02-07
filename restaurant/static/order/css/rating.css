@@ -1,0 +1,19 @@
+.fa-star.checked {
+    color: orange;
+}
+
+.rating-list i {
+    float: right;
+    color: #ddd;
+    padding: 10px 5px;
+}
+
+.rating-list i:hover,
+.rating-list i:hover ~ i {
+    color: orange;
+}
+
+.rating-list {
+    display: inline-block;
+    list-style: none;
+}
