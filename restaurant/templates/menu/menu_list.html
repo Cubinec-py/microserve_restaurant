@@ -29,7 +29,8 @@
                         </div>
                     {% endfor %}
                     {% if customer and order_id.status == 'Ожидает оплату' %}
-                        <a class="btn btn-outline-dark open-incident" data-popup-url="{% url 'order_confirm' pk=order_id.id %}">
+                        <a class="btn btn-outline-dark open-incident"
+                           data-popup-url="{% url 'order_confirm' pk=order_id.id %}">
                             Оплатить
                         </a>
                     {% endif %}
@@ -65,9 +66,15 @@
                                         <small>{{ menu.description }}</small>
                                     </div>
                                     <div class="card__footer">
+                                        {% if menu.status == 'Не доступно' %}
+                                            <button class="btn btn-danger add-btn update-cart" disabled>
+                                                Добавить
+                                            </button>
+                                        {% else %}
                                         <button data-product="{{ menu.id }}" data-action="add"
                                                 class="btn btn-primary add-btn update-cart">Добавить
                                         </button>
+                                        {% endif %}
                                         <small style="float: right">${{ menu.price }}</small>
                                     </div>
                                 </div>
@@ -90,10 +97,16 @@
                                         <small>{{ menu.description }}</small>
                                     </div>
                                     <div class="card__footer">
+                                        {% if menu.status == 'Не доступно' %}
+                                            <button class="btn btn-danger add-btn update-cart" disabled>
+                                                Добавить
+                                            </button>
+                                        {% else %}
                                         <button data-product="{{ menu.id }}" data-first_name="k" data-second_name="k"
                                                 data-action="add" class="btn btn-outline-secondary add-btn update-cart">
                                             Добавить
                                         </button>
+                                        {% endif %}
                                         <small style="float: right">${{ menu.price }}</small>
                                     </div>
                                 </div>

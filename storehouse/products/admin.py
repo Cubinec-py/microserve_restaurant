@@ -4,9 +4,9 @@ from .models import Dish, CategoryDish
 
 @admin.register(Dish)
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'description', 'amount', 'weight')
+    list_display = ("name", "price", "description", "amount", "weight")
 
 
 @admin.register(CategoryDish)
-class MenuAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+class CategoryDishAdmin(admin.ModelAdmin):
+    list_display = ("name",)

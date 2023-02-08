@@ -15,13 +15,11 @@ class OrderListView(LoginRequiredMixin, ListView):
     template_name = 'waiter/order_list.html'
 
     def post(self, request, *args, **kwargs):
-        if self.request.POST:
-            waiter = self.request.POST.get('waiter_id')
-            order = self.request.POST.get('order_id')
-            if waiter:
-                Order.objects.filter(id=order).update(waiter_id=waiter)
-            return JsonResponse('Ok', safe=False)
-        return JsonResponse('Not ok', safe=False)
+        waiter = self.request.POST.get('waiter_id')
+        order = self.request.POST.get('order_id')
+        if waiter:
+            Order.objects.filter(id=order).update(waiter_id=waiter)
+        return JsonResponse('Ok', safe=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,23 +34,21 @@ class InterfaceView(LoginRequiredMixin, DetailView, ListView):
     template_name = 'waiter/order_detail/order_detail.html'
 
     def post(self, request, *args, **kwargs):
-        if self.request.POST:
-            quantity = self.request.POST.get('quantity')
-            item_id = self.request.POST.get('item_id')
-            dish_id = self.request.POST.get('dish_id')
-            order_id = self.request.POST.get('order_id')
-            status_order_id = self.request.POST.get('status_order_id')
-            order_status = self.request.POST.get('order_status')
-            if status_order_id:
-                Order.objects.filter(id=status_order_id).update(status=order_status)
-            if order_id and not OrderItem.objects.filter(order_id=order_id, dish_id=dish_id):
-                OrderItem.objects.create(dish_id=dish_id, order_id=order_id, quantity=1)
-            if quantity and int(quantity) > 0:
-                OrderItem.objects.filter(id=item_id).update(quantity=quantity)
-            elif quantity and int(quantity) == 0:
-                OrderItem.objects.filter(id=item_id).delete()
-            return JsonResponse('Ok', safe=False)
-        return JsonResponse('Not ok', safe=False)
+        quantity = self.request.POST.get('quantity')
+        item_id = self.request.POST.get('item_id')
+        dish_id = self.request.POST.get('dish_id')
+        order_id = self.request.POST.get('order_id')
+        status_order_id = self.request.POST.get('status_order_id')
+        order_status = self.request.POST.get('order_status')
+        if status_order_id:
+            Order.objects.filter(id=status_order_id).update(status=order_status)
+        if order_id and not OrderItem.objects.filter(order_id=order_id, dish_id=dish_id):
+            OrderItem.objects.create(dish_id=dish_id, order_id=order_id, quantity=1)
+        if quantity and int(quantity) > 0:
+            OrderItem.objects.filter(id=item_id).update(quantity=quantity)
+        elif quantity and int(quantity) == 0:
+            OrderItem.objects.filter(id=item_id).delete()
+        return JsonResponse('Ok', safe=False)
 
     def get_context_data(self, **kwargs):
         self.object_list = self.get_queryset()
