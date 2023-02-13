@@ -1,1 +1,1 @@
-web: gunicorn restaurant.core.wsgi --settings=restaurant.core.settings.prod --log-file -
+web: gunicorn restaurant.core.wsgi --log-file -
