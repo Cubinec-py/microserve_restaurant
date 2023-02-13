@@ -1,16 +1,15 @@
 import json
-from app.order.models import Order, OrderItem, Customer, Table, TableItem
+from app.order.models import Order, OrderItem, Customer
 from app.menu.models import Dish
-from django.shortcuts import get_object_or_404
 
 
 def cookie_cart(request):
     # Create empty cart for now for non-logged in user
     try:
         cart = json.loads(request.COOKIES['cart'])
-    except:
+    except Exception as e:
         cart = {}
-        print('CART:', cart)
+        print('Error:', e)
 
     items = []
     order = {'get_cart_total': 0, 'get_cart_items': 0, 'shipping': False}
@@ -19,7 +18,7 @@ def cookie_cart(request):
     for i in cart:
         # We use try block to prevent items in cart that may have been removed from causing error
         try:
-            if (cart[i]['quantity'] > 0):  # items with negative quantity = lot of freebies
+            if cart[i]['quantity'] > 0:  # items with negative quantity = lot of freebies
                 cart_items += cart[i]['quantity']
 
                 dish = Dish.objects.get(id=i)
@@ -38,10 +37,13 @@ def cookie_cart(request):
                         'weight': dish.weight,
                         'category': dish.category,
                         'imageURL': dish.image,
-                    }, 'amount': cart[i]['quantity'], 'get_total': total,
+                    },
+                    'amount': cart[i]['quantity'] if cart[i]['quantity'] <= dish.amount else dish.amount,
+                    'get_total': total,
                 }
                 items.append(item)
-        except:
+        except Exception as e:
+            print('Error', e)
             pass
     return {'cart_items': cart_items, 'order': order, 'items': items}
 
@@ -58,7 +60,7 @@ def cart_data(request):
 def guest_order(request, data):
     first_name = data['form']['first_name']
     last_name = data['form']['last_name']
-    table = get_object_or_404(Table, id=data['table']['table_id'])
+    table = data['table']['table_id']
     cookie_data = cookie_cart(request)
     items = cookie_data['items']
 
@@ -70,10 +72,8 @@ def guest_order(request, data):
 
     order = Order.objects.create(
         customer=customer,
-        status='Готовиться',
-    )
-    table_item = TableItem.objects.create(
-        table_id=table.id,
+        status='Готовится',
+        table_id=table,
     )
     for item in items:
         dish = Dish.objects.get(id=item['id'])
@@ -81,7 +81,6 @@ def guest_order(request, data):
             dish=dish,
             order=order,
             quantity=(item['amount'] if item['amount'] > 0 else -1 * item['amount']),
-            table_item_id=table_item.id,
         )
 
     return customer, order

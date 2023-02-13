@@ -1,11 +1,16 @@
 {% extends 'base_generic.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" type='text/css' href="{% static 'cart/cart.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'cart/css/cart.css' %}">
+    <section class="gradient-custom">
     <div class="row">
         <div class="col-lg-12">
             <div class="box-element">
                 <br>
+                <a class="btn btn-warning" href="{% url 'menu' %}">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Назад
+                </a>
                 <br>
                 <form id="form">
                     <table class="table">
@@ -41,7 +46,8 @@
                                 </h5>
                             </th>
                             <th>
-                                <input id="form-button" class="btn btn-success btn-block" type="submit" value="Подтвердить">
+                                <input id="form-button" class="btn btn-success btn-block" type="submit"
+                                       value="Подтвердить">
                             </th>
                         </tr>
                     </table>
@@ -65,7 +71,7 @@
                         <div style="flex:2"><p>{{ item.dish.name }}</p></div>
                         <div style="flex:1"><p>${{ item.dish.price|floatformat:2 }}</p></div>
                         <div style="flex:1">
-                            <p class="quantity">{{ item.quantity }}</p>
+                            <p class="quantity">{{ item.amount }}</p>
                             <div class="quantity">
                                 <img data-product="{{ item.dish.id }}"
                                      style="width: 28px !important; height: 28px !important;" data-action="add"
@@ -82,5 +88,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{% static 'cart/cart_confirm.js' %}"></script>
+    </section>
+    <script type="text/javascript" src="{% static 'cart/js/cart_confirm.js' %}"></script>
 {% endblock content %}

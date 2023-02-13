@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.order.models import Table, Order, OrderItem
+from app.order.models import Table, Order, OrderItem, Rating
 
 
 @admin.register(Table)
@@ -14,4 +14,9 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ('order', 'dish', 'quantity', 'table_item')
+    list_display = ('order', 'dish', 'quantity')
+
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('rating',)

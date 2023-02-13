@@ -1,0 +1,11 @@
+.bi-star-fill.checked {
+    color: orange;
+}
+
+.rating-list span {
+    margin-right: 3px
+}
+
+.rating-list span:last-child {
+    margin-right: 0
+}

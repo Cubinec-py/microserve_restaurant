@@ -1,0 +1,111 @@
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #6a11cb;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+}
+
+body {
+    background-color: #f2f2f2;
+    font-family: 'Karla', Arial, sans-serif;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+small {
+    font-size: 14px;
+}
+
+.pull {
+    float: left;
+}
+
+.push {
+    float: right;
+}
+
+.container {
+    width: 100%;
+    max-width: 960px;
+    margin: 100px auto;
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+/*Card Styling*/
+
+.card {
+    border: 1px solid #6a11cb;
+    background-color: burlywood;
+}
+
+.card__wrap--inner {
+    padding: 12px;
+}
+
+.card__item {
+    padding: 12px 18px 12px 18px;
+}
+
+.card__sub {
+    padding: 0 18px;
+}
+
+.card__footer {
+    padding: 18px;
+    overflow: hidden;
+    /*border-top: 1px solid #dedede;*/
+}
+
+/*Card Flex Code*/
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.card__wrap--outer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.card__wrap--inner {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+@media (min-width: 480px) {
+
+    .card__wrap--inner {
+        width: 50%
+    }
+}
+
+@media (min-width: 1024px) {
+
+    .card__wrap--inner {
+        width: 33.33%
+    }
+}
+
+.flexible {
+    flex-grow: 1;
+}

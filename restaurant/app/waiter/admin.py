@@ -4,4 +4,4 @@ from .models import Waiter
 
 @admin.register(Waiter)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name')
+    list_display = ("id",)

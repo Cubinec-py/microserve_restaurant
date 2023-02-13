@@ -16,10 +16,11 @@ class Dish(models.Model):
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.TextField(max_length=1000)
-    amount = models.IntegerField(default=0)
+    amount = models.PositiveIntegerField(default=0)
     weight = models.IntegerField(default=0)
     category = models.ManyToManyField(CategoryDish)
     image = models.ImageField(upload_to='dishes', null=True)
+    status = models.CharField(max_length=15, default='Доступно')
 
     class Meta:
         ordering = ['-id']
