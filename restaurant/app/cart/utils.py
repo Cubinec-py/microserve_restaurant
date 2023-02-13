@@ -37,7 +37,9 @@ def cookie_cart(request):
                         'weight': dish.weight,
                         'category': dish.category,
                         'imageURL': dish.image,
-                    }, 'amount': cart[i]['quantity'], 'get_total': total,
+                    },
+                    'amount': cart[i]['quantity'] if cart[i]['quantity'] <= dish.amount else dish.amount,
+                    'get_total': total,
                 }
                 items.append(item)
         except Exception as e:

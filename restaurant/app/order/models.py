@@ -5,10 +5,6 @@ from app.menu.models import Dish
 from app.waiter.models import Waiter, Tips
 
 
-class Rating(models.Model):
-    rating = models.IntegerField(default=0)
-
-
 class Customer(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -38,6 +34,7 @@ class Order(models.Model):
         ('Готовится', 'Готовится'),
         ('Блюда в зале', 'Блюда в зале'),
         ('Ожидает оплату', 'Ожидает оплату'),
+        ('Оплачено', 'Оплачено'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_number = models.IntegerField(default=1)
@@ -47,7 +44,6 @@ class Order(models.Model):
     waiter = models.ForeignKey(Waiter, on_delete=models.SET_NULL, null=True, blank=True)
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True, blank=True)
     total_payment = models.IntegerField(default=0)
-    rating = models.ForeignKey(Rating, on_delete=models.SET_NULL, null=True, blank=True)
     tips = models.ForeignKey(Tips, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_all_status(self):
@@ -70,8 +66,13 @@ class Order(models.Model):
 class OrderItem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     dish = models.ForeignKey(Dish, on_delete=models.SET_NULL, null=True, blank=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0, null=True)
 
     def get_total(self):
         return self.quantity * self.dish.price
+
+
+class Rating(models.Model):
+    rating = models.IntegerField(default=0)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)

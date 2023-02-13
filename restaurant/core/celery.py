@@ -4,7 +4,7 @@ from celery import Celery
 from celery.schedules import crontab
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings.local')
 
 app = Celery('core')
 
@@ -18,7 +18,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'check_for_books': {
+    'check_for_dishes': {
         'task': 'app.menu.tasks.create_update_dish',
         'schedule': crontab(minute='*/1'),
     }

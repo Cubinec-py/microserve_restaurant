@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 
 @shared_task
 def create_update_dish():
-    url = 'http://127.0.0.1:8000/api/dishes/'
+    url = 'http://storehouse:8001/api/dishes/'
     page = ''
     token_value = os.environ.get('TOKEN_VALUE')
 

@@ -5,19 +5,23 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('waiter', '0003_remove_waiter_tips_tips_waiter'),
+        ("waiter", "0003_remove_waiter_tips_tips_waiter"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='tips',
-            name='waiter',
+            model_name="tips",
+            name="waiter",
         ),
         migrations.AddField(
-            model_name='waiter',
-            name='tips',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='waiter.tips'),
+            model_name="waiter",
+            name="tips",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="waiter.tips",
+            ),
         ),
     ]

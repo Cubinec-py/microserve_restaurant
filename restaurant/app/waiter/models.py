@@ -6,7 +6,7 @@ class Waiter(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ["-id"]
 
 
 class Tips(models.Model):

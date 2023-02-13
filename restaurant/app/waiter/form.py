@@ -5,4 +5,4 @@ from django import forms
 class ChangeOrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
-        fields = ['quantity']
+        fields = ["quantity"]

@@ -4,11 +4,11 @@
     <div class="container">
         <h3>
             {% if user.is_authenticated and not user.is_staff %}
-                <a class="btn btn-outline-dark open-tips" data-popup-url="{% url 'waiter_tips' %}">
+                <a class="btn btn-dark open-tips" data-popup-url="{% url 'waiter_tips' %}">
                     Посмотреть чаевые
                 </a>
             {% elif user.is_staff %}
-                <a class="btn btn-outline-dark open-restaurant-stats" data-popup-url="{% url 'restaurant_stats' %}">
+                <a class="btn btn-dark open-restaurant-stats" data-popup-url="{% url 'restaurant_stats' %}">
                     Посмотреть статистику
                 </a>
             {% endif %}
@@ -43,13 +43,13 @@
                                         {% endfor %}
                                     </select>
                                 </div>
-                                <button id="form-button-waiter" class="btn btn-outline-dark">Подтвердить</button>
+                                <button id="form-button-waiter" class="btn btn-dark">Подтвердить</button>
                             </form>
                         {% endif %}
                     </th>
                     <th>{{ ord.table.number }}</th>
                     <th class="text-center">
-                        <a class="btn btn-outline-dark " href="{% url 'order_detail' pk=ord.id %}">
+                        <a class="btn btn-dark " href="{% url 'order_detail' pk=ord.id %}">
                             Открыть заказ
                         </a>
                     </th>
