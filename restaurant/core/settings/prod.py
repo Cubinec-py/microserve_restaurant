@@ -36,3 +36,5 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_RESULT_BACKEND = f'redis://default:{password}@redis-10048.c250.eu-central-1-1.ec2.cloud.redislabs.com:10048'
 CELERY_BROKER_URL = f'redis://default:{password}@redis-10048.c250.eu-central-1-1.ec2.cloud.redislabs.com:10048'
+
+CSRF_TRUSTED_ORIGINS = ['https://microserverestaurant-production.up.railway.app']
