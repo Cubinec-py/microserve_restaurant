@@ -7,12 +7,11 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'DB_NAME': 'django_db',
-        'DB_USER': 'y2xlxdiifbs7jfwxc3z4',
-        'DB_PASSWORD': os.environ.get('DB_PASSWORD'),
-        'DB_HOST': 'eu - west.connect.psdb.cloud',
-        'DB_PORT': '3306',
-        'MYSQL_ATTR_SSL_CA': '/ etc / ssl / cert.pem',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
