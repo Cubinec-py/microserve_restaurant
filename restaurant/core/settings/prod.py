@@ -3,14 +3,9 @@ from .base import *
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-# name = os.environ.get('PGDATABASE')
-# user = os.environ.get('PGUSER')
-# password = os.environ.get('PGPASSWORD')
-# host = os.environ.get('PGUSER')
-# port = os.environ.get('PGPORT')
+
 DATABASES = {
     'default': {
-#         'DATABASE_URL': f'postgresql://{user}:{password}.{host}:{port}/{name}'
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('PGDATABASE'),
         'USER': os.environ.get('PGUSER'),
