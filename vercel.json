@@ -10,7 +10,7 @@
       "src": "build_files.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "restaurant/staticfiles_build"
+        "distDir": "restaurant/staticfiles"
       }
     }
   ],
