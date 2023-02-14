@@ -1,1 +1,1 @@
-web: gunicorn restaurant.core.wsgi --log-file -
+web: gunicorn --chdir restaurant/ core.wsgi:application --log-file -
