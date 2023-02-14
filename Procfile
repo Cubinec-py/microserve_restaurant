@@ -1,1 +1,1 @@
-web: gunicorn --chdir restaurant/ core.wsgi --log-file -
+web: python restaurant/manage.py migrate && gunicorn --chdir restaurant/ core.wsgi --log-file -
