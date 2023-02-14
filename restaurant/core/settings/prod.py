@@ -3,15 +3,20 @@ from .base import *
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+name = os.environ.get('PGDATABASE')
+user = os.environ.get('PGUSER')
+password = os.environ.get('PGPASSWORD')
+host = os.environ.get('PGUSER')
+port = os.environ.get('PGPORT')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'DATABASE_URL': f'postgres://{user}:{password}.{host}:{port}/{name}'
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('PGDATABASE'),
+#         'USER': os.environ.get('PGUSER'),
+#         'PASSWORD': os.environ.get('PGPASSWORD'),
+#         'HOST': os.environ.get('PGUSER'),
+#         'PORT': os.environ.get('PGPORT'),
     }
 }
 
